@@ -38,4 +38,4 @@ Deploy only `dist/` to a static host. Do not publish the entire workspace: local
 
 ## Submission status
 
-This is an initial implementation prepared with Codex. Kiro CLI is installed, but actual Kiro/Claude usage has not yet been verified. Read `docs/KIRO_USAGE.md` before making any Kiro usage claims. Nothing has been submitted to the competition or published to GitHub from this workspace.
+This is an initial implementation prepared with Codex. Kiro CLI is installed, but actual Kiro/Claude usage has not yet been verified. Read `docs/KIRO_USAGE.md` before making any Kiro usage claims. The source is published at https://github.com/1207chatgpt-code/ghost-tasks. The competition entry is still a draft; no final submission has been made.
