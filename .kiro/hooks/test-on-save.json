@@ -1,0 +1,11 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run task model tests after source changes",
+      "trigger": "PostFileSave",
+      "matcher": "src/.*\\.js$",
+      "action": { "type": "command", "command": "npm test" }
+    }
+  ]
+}
