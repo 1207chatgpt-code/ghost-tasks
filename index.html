@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0b18" />
+    <title>Ghost Tasks — Revive what matters</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Ghost Tasks home"><span class="brand-mark"><span class="little-ghost" aria-hidden="true"><i></i></span></span><span>ghost tasks</span></a>
+        <div class="top-actions"><span class="status-dot" id="status-dot"></span><span id="saved-label">saved locally</span><button class="lang-button" id="language-toggle" type="button">中文</button></div>
+      </header>
+
+      <section class="hero">
+        <div class="eyebrow"><span class="eyebrow-line"></span><span id="eyebrow-text">A small place for unfinished things</span></div>
+        <h1 id="hero-title">Give your ghosts<br /><em>a way out.</em></h1>
+        <p id="hero-copy">Turn one abandoned task into one clear next step. Focus long enough to let it go.</p>
+        <div class="stats"><div><strong id="active-count">0</strong><span id="active-label">active ghosts</span></div><div><strong id="released-count">0</strong><span id="released-label">released</span></div><div><strong id="focus-count">0</strong><span id="focus-label">focus sessions</span></div></div>
+      </section>
+
+      <section class="workspace">
+        <div class="panel add-panel">
+          <div class="panel-heading"><div><span class="kicker" id="summon-kicker">SUMMON</span><h2 id="summon-title">Name the ghost</h2></div><span class="sigil">✦</span></div>
+          <form id="task-form">
+            <label for="task-title" id="task-title-label">What have you been avoiding?</label>
+            <input id="task-title" name="title" placeholder="e.g. Finish the project brief" required maxlength="90" />
+            <label for="task-step" id="task-step-label">Give it one tiny next step</label>
+            <input id="task-step" name="nextStep" placeholder="e.g. Open a blank document" required maxlength="120" />
+            <div class="form-row"><label for="task-minutes" id="minutes-label">Focus time</label><select id="task-minutes" name="minutes"><option value="15">15 min</option><option value="25" selected>25 min</option><option value="45">45 min</option></select><button class="primary-button" type="submit" id="summon-button">Summon ghost <span>↗</span></button></div>
+            <button id="cancel-edit" type="button" class="text-button" hidden>Cancel editing</button>
+            <button id="sample-button" type="button" class="text-button">Try a sample task</button>
+            <p id="privacy-note" class="privacy-note">No account. No cloud. Your tasks stay in this browser.</p>
+          </form>
+        </div>
+
+        <div class="panel list-panel"><div class="panel-heading"><div><span class="kicker" id="lantern-kicker">LANTERN ROOM</span><h2 id="lantern-title">Your haunting list</h2></div><span class="count-pill" id="list-count">0</span></div><div id="task-list" class="task-list"></div><div id="empty-state" class="empty-state"><div class="empty-ghost"><span class="little-ghost" aria-hidden="true"><i></i></span></div><p id="empty-title">The room is quiet.</p><span id="empty-copy">Add a task above and give it a smaller doorway.</span></div></div>
+      </section>
+
+      <section class="release-panel panel"><div class="release-copy"><span class="kicker" id="release-kicker">RELEASE LOG</span><h2 id="release-title">Proof that you let go.</h2><p id="release-copy-text">Every released ghost becomes a quiet receipt for your attention.</p></div><div class="release-list" id="release-list"></div></section>
+      <details class="panel archive-panel" id="archive-section" hidden><summary id="archive-title">Resting ghosts</summary><div id="archive-list"></div></details>
+      <p id="notice" role="status" aria-live="polite"></p>
+      <footer><span>ghost tasks / local-first</span><span id="footer-copy">made for the unfinished</span></footer>
+    </main>
+    <dialog id="focus-dialog" aria-labelledby="focus-title" aria-describedby="focus-step"><div class="dialog-top"><span class="kicker" id="focus-kicker">FOCUS SESSION</span><button id="close-focus" type="button" aria-label="Close">×</button></div><div class="focus-ghost"><span class="little-ghost" aria-hidden="true"><i></i></span></div><h2 id="focus-title">Stay with the next step.</h2><p id="focus-task-name"></p><p id="focus-step"></p><div class="timer-ring" id="timer-ring"><div class="timer" id="timer" role="timer">25:00</div></div><div class="timer-actions"><button class="secondary-button" id="reset-focus" type="button">Reset</button><button class="secondary-button" id="pause-focus" type="button">Pause</button><button class="primary-button" id="complete-focus" type="button">Release ghost</button></div><p class="dialog-note" id="focus-note">You can finish early if the work is already done.</p></dialog>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
