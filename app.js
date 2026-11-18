@@ -1,5 +1,5 @@
 import { completeTask, createTask, loadTasks, reviveTask, saveTasks } from './src/taskStore.js';
-import { pauseTimer, resumeTimer, secondsLeft, startTimer } from './src/timer.js';
+import { loadFocus, saveFocus, pauseTimer, resumeTimer, secondsLeft, startTimer } from './src/timer.js';
 import { translations } from './src/copy.js';
 
 const $ = id => document.getElementById(id);
@@ -22,6 +22,7 @@ function persist() {
     storage.setItem('ghost-language', state.language);
     storage.setItem('ghost-focus-sessions', String(state.steps));
   } catch { state.saving = false; }
+  if (!saveFocus(storage, state.focusTaskId, state.clock)) state.saving = false;
 }
 function ghostMarkup(extra = '') { return `<span class="little-ghost ${extra}" aria-hidden="true"><i></i></span>`; }
 function textNode(tag, className, text) {
@@ -103,9 +104,10 @@ function render() {
   renderTasks();
 }
 function cancelEdit() { state.editingId = null; $('task-form').reset(); render(); }
-function startFocus(task) {
+function startFocus(task, recoveredClock = null) {
   state.focusTaskId = task.id;
-  state.clock = startTimer(task.minutes * 60);
+  state.clock = recoveredClock ?? startTimer(task.minutes * 60);
+  persist();
   $('focus-task-name').textContent = task.title;
   $('focus-step').textContent = task.nextStep;
   render(); updateTimer(); $('focus-dialog').showModal();
@@ -118,7 +120,7 @@ function updateTimer() {
   $('focus-note').textContent = t(remaining === 0 ? 'finished' : 'focusNote');
   $('timer-ring').style.setProperty('--progress', `${(1 - remaining / state.clock.durationSeconds) * 360}deg`);
 }
-function closeFocus() { clearInterval(state.interval); state.interval = null; state.focusTaskId = null; state.clock = null; $('focus-dialog').close(); }
+function closeFocus() { clearInterval(state.interval); state.interval = null; state.focusTaskId = null; state.clock = null; persist(); $('focus-dialog').close(); }
 
 $('task-form').addEventListener('submit', event => {
   event.preventDefault();
@@ -160,11 +162,11 @@ $('close-focus').addEventListener('click', closeFocus);
 $('focus-dialog').addEventListener('cancel', event => { event.preventDefault(); closeFocus(); });
 $('pause-focus').addEventListener('click', () => {
   state.clock = state.clock.pausedAt === null ? pauseTimer(state.clock) : resumeTimer(state.clock);
-  $('pause-focus').textContent = t(state.clock.pausedAt === null ? 'pause' : 'resume'); updateTimer();
+  persist(); $('pause-focus').textContent = t(state.clock.pausedAt === null ? 'pause' : 'resume'); updateTimer();
 });
 $('reset-focus').addEventListener('click', () => {
   state.clock = startTimer(state.clock.durationSeconds);
-  $('pause-focus').textContent = t('pause'); updateTimer();
+  persist(); $('pause-focus').textContent = t('pause'); updateTimer();
 });
 $('complete-focus').addEventListener('click', async () => {
   const id = state.focusTaskId; if (!id) return;
@@ -176,3 +178,6 @@ $('complete-focus').addEventListener('click', async () => {
   notify(t('releasedMessage')); render();
 });
 render();
+
+const recoveredFocus = loadFocus(storage, state.tasks);
+if (recoveredFocus) startFocus(state.tasks.find(task => task.id === recoveredFocus.taskId), recoveredFocus.clock);
