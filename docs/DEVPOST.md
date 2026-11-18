@@ -14,7 +14,7 @@ Unfinished tasks linger in the background and keep demanding attention. Ghost Ta
 - Runs a wall-clock countdown with pause, resume, and reset.
 - Records a released ghost when the user finishes a step.
 - Supports editing, revival, and reversible archiving.
-- Preserves tasks and language preferences in the current browser.
+- Preserves tasks, language preferences, and recent running or paused focus sessions in the current browser.
 - Supports English and Chinese.
 
 ## How it is built
@@ -25,12 +25,12 @@ HTML, CSS, and JavaScript modules, with browser localStorage. No account, backen
 
 The timer uses elapsed wall-clock time so background-tab throttling does not make it drift. Stored task records are validated before rendering, and a storage write failure is surfaced to the user. Task content is rendered through textContent to avoid interpreting it as HTML.
 
-## Kiro work still pending
+## How Kiro helped
 
-The initial code was prepared in Codex. Actual Kiro CLI/Claude development must be performed and documented before final submission. See KIRO_USAGE.md. Do not tag Claude or Kiro as already used until verified.
+I used Kiro CLI with DeepSeek 3.2 for a focused correctness review. Kiro identified that refreshing the page lost the current focus session. Codex reproduced the issue, implemented validated session persistence, and added regression tests; Kiro then reviewed the fix and found no blocking issue. All 11 tests and the build passed. The initial implementation was prepared in Codex. Claude and automatic hooks were not used.
 
-## Link status
+## Links
 
-GitHub: not created yet; intended account is 1207chatgpt-code.
-Hosted demo: not deployed.
-YouTube: not recorded or uploaded.
+GitHub: https://github.com/1207chatgpt-code/ghost-tasks
+Demo: https://1207chatgpt-code.github.io/ghost-tasks/
+YouTube: not recorded or uploaded yet.

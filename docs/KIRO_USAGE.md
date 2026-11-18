@@ -1,24 +1,24 @@
-# Kiro usage — pending actual development session
+# Kiro usage — Ghost Tasks
 
-## Verified status (2026-11-17, Asia/Shanghai)
+## Products and model actually used
 
-- Kiro CLI 3.4.0 was installed from the official vendor installer.
-- `kiro-cli whoami` confirms Google sign-in.
-- No Claude request or Kiro development session has been verified.
-- This initial implementation and the `.kiro` files were prepared by Codex. Their existence is not proof of Kiro use.
+Kiro CLI 3.4.0, signed in through Google, with `deepseek-3.2`. Claude was not available in the authenticated model list and was not used. The user explicitly approved the available DeepSeek model on 2026-11-18 (Asia/Shanghai).
 
-## Configuration prepared for Kiro
+## Actual contribution
 
-- `.kiro/steering/`: product, technology, and file structure guidance.
-- `.kiro/specs/ghost-tasks/`: requirements, design, and implementation tasks.
-- `.kiro/hooks/test-on-save.json`: PostFileSave command hook, checked against the current official hook schema; execution in Kiro is not verified.
+Kiro read the project context, task store, timer, application integration, and tests. It identified that an active or paused focus session existed only in memory and disappeared after a page refresh. Codex reproduced this behavior in the browser, implemented recovery in `src/timer.js` and `app.js`, and added `test/focus-recovery.test.js`.
 
-## Genuine Kiro work still needed
+A second real Kiro review read the updated files, checked initialization order, paused-session restoration, completed-task handling, and invalid storage. It reported no blocking issue. Kiro performed review and supplied the fix direction; Codex implemented the patch and executed the tests. The initial application was also prepared by Codex.
 
-After Claude becomes available, select the Claude model in the account and ask Kiro to inspect and improve this project. Useful real work includes accessibility review, additional task validation, timer edge cases, and verifying the hook. Record the actual model, prompt, changed files, test output, and session evidence here after the work occurs.
+## Verification
 
-Do not submit this document as a completed Kiro usage claim until actual use has been recorded. Custom agents, MCP, PBT, powers, and Crew have not been used.
+The two new regression tests failed before implementation. After the fix, all 11 tests and `npm run build` passed. Browser verification confirmed that a paused session reopened after refresh with its remaining time and Resume control intact. Closing a session explicitly clears it; inactive tasks, invalid records, and records older than 24 hours are not restored.
 
-## Account model check
+## Prepared configuration and limits
 
-The authenticated CLI model list returned deepseek-3.2, minimax-m2.5, minimax-m2.1, glm-5, and qwen3-coder-next. Default: deepseek-3.2. No Claude model was returned. No development prompt was sent because the user specifically requested Claude.
+- `.kiro/steering/`: product, technology and structure guidance read during review.
+- `.kiro/specs/ghost-tasks/`: requirements, design and tasks available to Kiro.
+- `.kiro/hooks/test-on-save.json`: prepared hook; automatic execution inside Kiro was not verified. Tests were run separately by Codex.
+- No custom agent, MCP server, property-based testing, powers, or Crew was used.
+
+Local review transcripts are retained in the ignored `log/` directory. They are evidence of the review sessions, not public account data.
